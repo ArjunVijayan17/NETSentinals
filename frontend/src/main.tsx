@@ -7,6 +7,7 @@ import Analyze from "./pages/Analyze";
 import Results from "./pages/Results";
 import ModelEval from "./pages/ModelEval";
 import History from "./pages/History";
+import LiveMonitor from "./pages/LiveMonitor";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Overview /> },
       { path: "analyze", element: <Analyze /> },
+      { path: "live", element: <LiveMonitor /> },
       { path: "analyses/:id", element: <Results /> },
       { path: "models", element: <ModelEval /> },
       { path: "history", element: <History /> },

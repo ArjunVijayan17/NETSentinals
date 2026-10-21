@@ -6,10 +6,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from . import live
 from .config import CORS_ORIGINS
 from .db.database import init_db
 from .models.loader import load_models, load_scaler
-from .routers import analysis, health, predict
+from .routers import analysis, health, live as live_router, predict
 
 
 @asynccontextmanager
@@ -18,7 +19,10 @@ async def lifespan(app: FastAPI):
     load_models()
     load_scaler()
     init_db()
+    live.init_live()
+    live.start_live()
     yield
+    live.stop_live()
 
 
 app = FastAPI(
@@ -39,3 +43,4 @@ app.add_middleware(
 app.include_router(health.router, tags=["health"])
 app.include_router(predict.router, tags=["prediction"])
 app.include_router(analysis.router, tags=["analysis"])
+app.include_router(live_router.router, tags=["live"])

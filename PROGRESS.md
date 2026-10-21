@@ -11,6 +11,7 @@
 | 4 | Frontend: React Dashboard | ✅ Built — `tsc` + `vite build` pass |
 | 5 | End-to-End Testing | ✅ 19 tests passed |
 | 6 | Demo Preparation | ✅ README + sample data ready |
+| 7 | Live Tracking (bonus) | ✅ Built + runtime-verified |
 
 ## ⚠️ Critical finding — models need feature scaling (Phase 0 defect)
 

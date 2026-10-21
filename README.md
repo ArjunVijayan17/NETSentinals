@@ -73,6 +73,14 @@ Open http://localhost:5173. The frontend calls the backend at
    matrices, and feature importance.
 7. Open **History** to see persisted analyses (survive a backend restart).
 
+### Live Monitor demo
+
+The **Live Monitor** page streams flow predictions in real time. Ambient
+traffic is replayed from real benign CICIDS rows; click **Simulate Attack** to
+inject real attack flows (DDoS, PortScan, etc.) and watch the alert feed and
+traffic chart react. This demonstrates attack detection without needing real
+malicious traffic on your network.
+
 ## Endpoints
 
 | Method | Path | Description |
@@ -85,6 +93,8 @@ Open http://localhost:5173. The frontend calls the backend at
 | GET | `/analyses/{id}` | Full analysis with row results |
 | GET | `/analyses/{id}/download` | Download prediction CSV |
 | GET | `/metrics` | Verified evaluation metrics |
+| GET | `/live/stream` | Server-Sent Events stream of live flow predictions |
+| POST | `/live/simulate` | Inject simulated attack flows into the live stream |
 
 ## Testing
 

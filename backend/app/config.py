@@ -29,7 +29,9 @@ MAX_UPLOAD_BYTES = 50 * 1024 * 1024   # 50 MB
 MAX_UPLOAD_ROWS  = 500_000
 
 # CORS
-CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
+CORS_ORIGINS = os.getenv(
+    "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
+).split(",")
 
 # The 20 required feature columns (exact names post-strip)
 REQUIRED_FEATURES = [
