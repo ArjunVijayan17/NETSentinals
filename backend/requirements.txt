@@ -1,14 +1,17 @@
-fastapi==0.115.5
-uvicorn[standard]==0.32.1
-scikit-learn==1.6.1
-joblib==1.4.2
-pandas==2.2.3
-numpy==1.26.4
-pydantic==2.10.2
-pydantic-settings==2.6.1
-sqlalchemy==2.0.36
-python-multipart==0.0.17
-aiofiles==24.1.0
-python-dotenv==1.0.1
-pytest==8.3.4
-httpx==0.28.0
+# Verified working set on Python 3.15 (Windows).
+# scikit-learn 1.6.1 has no cp315 wheel, so 1.9.1 is used; models load fine
+# with an expected InconsistentVersionWarning (suppressed in loader.py).
+fastapi==0.158.0
+uvicorn==0.54.0
+scikit-learn==1.9.1
+joblib==1.6.0
+pandas==3.0.6
+numpy==2.5.4
+pydantic==2.14.1
+pydantic-settings==2.16.1
+sqlalchemy==2.1.6
+python-multipart==0.0.32
+aiofiles==25.1.0
+python-dotenv==1.2.4
+pytest==9.1.1
+httpx==0.28.1

@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 # Allow imports from backend/
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from backend.app.config import MODEL_PATHS, REQUIRED_FEATURES, BINARY_LABELS
+from backend.app.config import MODEL_PATHS, REQUIRED_FEATURES, BINARY_LABELS, SCALER_PATH
 import joblib
 
 
@@ -69,6 +69,17 @@ def run_verify():
     test_row = make_test_row()
     print(f"\nTest row shape: {test_row.shape}")
     print(f"Features: {list(test_row.columns)}")
+
+    # The models were trained on Z-scored features; apply the training scaler.
+    if not SCALER_PATH.exists():
+        print(f"  ❌ SCALER NOT FOUND: {SCALER_PATH}")
+        print("  Predictions below use raw features and will be wrong.")
+    else:
+        scaler = joblib.load(SCALER_PATH)
+        test_row = pd.DataFrame(
+            scaler.transform(test_row), columns=REQUIRED_FEATURES
+        )
+        print(f"  ✅ Standardized test row with: {SCALER_PATH}")
 
     results = {}
 

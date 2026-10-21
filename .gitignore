@@ -42,6 +42,7 @@ venv.bak/
 # Large datasets & raw traffic data (CICIDS2017)
 MachineLearningCSV/
 MachineLearningCSV.zip
+dataset/
 *.pcap
 *.pcap_ISCX.csv
 *.parquet
@@ -78,6 +79,9 @@ yarn-error.log*
 dist/
 dist-ssr/
 *.local
+*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
 
 # IDE & Editor files
 .vscode/
@@ -96,3 +100,6 @@ logs/
 .coverage
 htmlcov/
 tmp/
+
+# OS installer files dropped into the repo root
+*.msix

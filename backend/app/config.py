@@ -17,6 +17,10 @@ MODEL_PATHS = {
     "attack_type":         ATTACK_MODELS_DIR / "random_forest_attack_type.joblib",
 }
 
+# Training StandardScaler. All models were trained on Z-scored features, so raw
+# input MUST be standardized with this exact scaler before inference.
+SCALER_PATH = PROJECT_ROOT / "standard_scaler.joblib"
+
 # Database
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'netsentinel.db'}")
 

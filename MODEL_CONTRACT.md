@@ -39,14 +39,27 @@ All four models accept **exactly the same 20 features**, in this exact order:
 
 ## 2. Preprocessing Requirements
 
+**All four models require the training StandardScaler.** The training data
+(`train.parquet`) was Z-scored by `01_load_and_clean_data.ipynb` with
+`StandardScaler().fit_transform(x_train)` before any model was trained. The
+saved models therefore expect **standardized** features, not raw values.
+
 | Model | Requires External Scaler? | Notes |
 |-------|--------------------------|-------|
-| `random_forest.joblib` | ❌ No | Tree-based; scale-invariant |
-| `decision_tree.joblib` | ❌ No | Tree-based; scale-invariant |
-| `k-nearest_neighbors.joblib` | ❌ No (self-contained) | **Is a `Pipeline`**: `StandardScaler → KNeighborsClassifier`. Scaling is applied internally. |
-| `random_forest_attack_type.joblib` | ❌ No | Tree-based; scale-invariant |
+| `random_forest.joblib` | ✅ Yes | Trained on Z-scored features |
+| `decision_tree.joblib` | ✅ Yes | Trained on Z-scored features |
+| `k-nearest_neighbors.joblib` | ✅ Yes | Its internal `StandardScaler` was fit on *already-standardized* data (a no-op); apply the training scaler upstream |
+| `random_forest_attack_type.joblib` | ✅ Yes | Trained on Z-scored features |
 
-**No external scaler file is needed.** The KNN model handles its own scaling.
+**Required artifact:** `standard_scaler.joblib` (the `StandardScaler` fitted on
+the raw training split). Apply it to every input frame before inference:
+
+```python
+df_standardized = scaler.transform(df[FEATURES])
+```
+
+Feeding raw (unscaled) features produces degenerate predictions — every row
+collapses to a single class.
 
 ---
 
@@ -106,6 +119,7 @@ Input CSV
 strip column whitespace
 validate all 20 features present
 drop/reject rows with NaN or Inf
+standardize with standard_scaler.joblib  ← required
     │
     ▼
 Binary RF predict(X[20 features])
@@ -133,7 +147,8 @@ Binary RF predict(X[20 features])
 
 ## 8. What NOT to Do
 
-- ❌ Do not re-fit or re-scale features at inference time.
+- ❌ Do not fit a *new* scaler at inference time — apply the exact saved
+  `standard_scaler.joblib` fitted on the training split.
 - ❌ Do not invent feature names, class names, or thresholds.
 - ❌ Do not run the multiclass model on benign rows.
 - ❌ Do not load `.joblib` files from untrusted external sources (they can execute arbitrary code).
